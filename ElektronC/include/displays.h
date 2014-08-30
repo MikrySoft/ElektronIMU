@@ -75,6 +75,7 @@
 #define SEG_G 0x02u
 #define SEG_K 0x20u
 
+
 #define SEG_DIGIT_0		0x22u
 #define SEG_DIGIT_1		0xEBu
 #define SEG_DIGIT_2		0x70u
@@ -98,6 +99,7 @@
 #define SEG_DIGIT_I		0x7Fu
 #define SEG_DIGIT_CI	0x3Fu
 #define SEG_DIGIT_J		0x63u
+#define SEG_DIGIT_K		0x39u
 #define SEG_DIGIT_L		0x37u
 #define SEG_DIGIT_N		0x6Du
 #define SEG_DIGIT_CN	0x2Au
@@ -112,23 +114,23 @@
 #define SEG_DIGIT_CT	0x3Eu
 #define SEG_DIGIT_U		0x67u
 #define SEG_DIGIT_CU	0x23u
-#define SEG_DIGIT_V
+#define SEG_DIGIT_V		0x77u
 #define SEG_DIGIT_W		0xB3u
+#define SEG_DIGIT_X		0x6Fu
 #define SEG_DIGIT_Y		0x39u
 #define SEG_DIGIT_Z		0x70u
 #define SEG_DIGIT_DOT	0xDFu
 #define SEG_DIGIT_TOP	0xFEu
 #define SEG_DIGIT_BOT	0xF7u
 #define SEG_DIGIT_MID	0xFDu
+#define SEG_DIGIT_APO	0xBFu
 #define SEG_BLANK		0xFFu
 
-const uint8_t LED_LETTER[42]= {	SEG_DIGIT_A,		SEG_DIGIT_B,	SEG_DIGIT_C,		SEG_DIGIT_D,	SEG_DIGIT_E,	SEG_DIGIT_F,	SEG_DIGIT_G,
-								SEG_DIGIT_H,		SEG_DIGIT_I,	SEG_DIGIT_J,		SEG_BLANK/*k*/,	SEG_DIGIT_L,	SEG_DIGIT_M,	SEG_DIGIT_N,
-								SEG_DIGIT_O,		SEG_DIGIT_P,	SEG_DIGIT_O/*q*/,	SEG_DIGIT_R,	SEG_DIGIT_S,	SEG_DIGIT_T,	SEG_DIGIT_CU /*U*/,
-								SEG_DIGIT_U /*V*/,	SEG_DIGIT_W,	SEG_BLANK/*x*/,		SEG_DIGIT_Y,	SEG_DIGIT_Z,	SEG_DIGIT_MID,	SEG_DIGIT_BOT,
-								SEG_DIGIT_DOT,	SEG_BLANK};
+#define LED_TOP 0
+#define LED_BOTTOM 1
 
-const uint8_t LED_DIGIT[16] = {SEG_DIGIT_0, SEG_DIGIT_1, SEG_DIGIT_2, SEG_DIGIT_3, SEG_DIGIT_4, SEG_DIGIT_5, SEG_DIGIT_6, SEG_DIGIT_7, SEG_DIGIT_8, SEG_DIGIT_9, SEG_DIGIT_A, SEG_DIGIT_B, SEG_DIGIT_CC, SEG_DIGIT_D, SEG_DIGIT_E, SEG_DIGIT_F };
+#define LED_ROWS 2
+#define LED_COLS 6
 
 typedef struct {
 	unsigned int active :1;
@@ -142,55 +144,38 @@ typedef struct {
 	uint8_t addr_b;
 } LedAddr;
 
-#define LED_TOP 0
-#define LED_BOTTOM 1
 
-#define LED_ROWS 2
-#define LED_COLS 6
-
-const LedAddr LED_DISP[LED_ROWS][LED_COLS] 	= {
-								{
-										{.addr_a=PCF_T5_A,.addr_b=PCF_T5_B},
-										{.addr_a=PCF_T4_A,.addr_b=PCF_T4_B},
-										{.addr_a=PCF_T3_A,.addr_b=PCF_T3_B},
-										{.addr_a=PCF_T2_A,.addr_b=PCF_T2_B},
-										{.addr_a=PCF_T1_A,.addr_b=PCF_T1_B},
-										{.addr_a=PCF_T0_A,.addr_b=PCF_T0_B}
-								},
-								{
-										{.addr_a=PCF_B5_A,.addr_b=PCF_B5_B},
-										{.addr_a=PCF_B4_A,.addr_b=PCF_B4_B},
-										{.addr_a=PCF_B3_A,.addr_b=PCF_B3_B},
-										{.addr_a=PCF_B2_A,.addr_b=PCF_B2_B},
-										{.addr_a=PCF_B1_A,.addr_b=PCF_B1_B},
-										{.addr_a=PCF_B0_A,.addr_b=PCF_B0_B}
-								}
-							   };
-
-DisplayState display[2][6] =	{
-									{
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0}
-									},
-									{
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0},
-											{.active=0, .dot=0,.value=0}
-									}
-								};
+extern DisplayState C96_DISP[2][6];
 
 void UpdateDisplay(I2C_TypeDef* I2Cx);
-void SetDigit(uint8_t row, uint8_t column, uint8_t value, uint8_t active = 1, uint8_t dot = 0);
 
-void SetDot(uint8_t row, uint8_t column);
-void ResetDot(uint8_t row, uint8_t column);
 
-rt
+uint8_t GetDigit(uint32_t number, uint8_t base, uint8_t digit);
+
+void SetDigit(uint8_t row, uint8_t column, uint8_t value, uint8_t active, uint8_t dot);
+
+
+/*
+DisplayState GetDigit(uint8_t row, uint8_t column);
+int SetText(char* text);
+
+
+#define DISP_TOP	0x01 //default bottom
+
+#define DISP_DIG_2	0x02
+#define DISP_DIG_4	0x04
+
+#define	DISP_HEX	0x08
+#define DISP_FILL	0x10
+
+
+
+ * column:
+ * 	0 - 2 digit display
+ * 	1 - 4 digit display
+ * 	2 - both displays
+
+void ShowNumber( uint32_t number);
+*/
+
 #endif /* DISPLAYS_H_ */
