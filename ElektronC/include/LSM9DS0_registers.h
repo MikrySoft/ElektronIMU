@@ -15,7 +15,18 @@
 #define LSM9DS0_GYRO_WHOAMI						0x0F	/* Device identification register = 0xD4 									*/
 #define LSM9DS0_GYRO_CTRL_REG1					0x20	/* Control Register 1 														*/
 	#define LSM9DS0_GYRO_CTRL_REG1_DR			0xC0	/* Data rate																*/
+	#define LSM9DS0_GYRO_ODR_95HZ				0x00
+	#define LSM9DS0_GYRO_ODR_190HZ				0x40
+	#define LSM9DS0_GYRO_ODR_380HZ				0x80
+	#define LSM9DS0_GYRO_ODR_760HZ				0xC0
+
 	#define LSM9DS0_GYRO_CTRL_REG1_BW			0x30	/* Bandwidth 																*/
+	#define LSM9DS0_GYRO_BW_LOW					0x00
+	#define LSM9DS0_GYRO_BW_MID					0x10
+	#define LSM9DS0_GYRO_BW_HIGH				0x20
+	#define LSM9DS0_GYRO_BW_BEST				0x30
+
+
 	#define LSM9DS0_GYRO_CTRL_REG1_PD			0x08	/* Power down																*
  	 	 	 	 	 	 	 	 	 	 	 	 	 	 *	 	 0 - Power down														*
  	 	 	 	 	 	 	 	 	 	 	 	 	 	 *	 	 1 - Normal/Sleep (when XEN&YEN&ZEN = 0)							*/
@@ -29,6 +40,11 @@
 														 *			01: Reference for filtering										*
 														 *			10: Normal														*
 														 *			11: Autoreset on interrupt										*/
+	#define LSM9DS0_GYRO_HPM_NORMAL_RESET		0x00
+	#define LSM9DS0_GYRO_HPM_REFERENCE			0x10
+	#define LSM9DS0_GYRO_HPM_NORMAL				0x20
+	#define LSM9DS0_GYRO_HPM_AUTORESET			0x30
+
 	#define LSM9DS0_GYRO_CTRL_REG2_HPCF			0x0F	/* High-pass filter cutoff (Hz):											*
 														 *				ODR=	95Hz	190Hz	380Hz	760Hz						*
 														 *			0000		7.2		13.5	27		51.4						*
@@ -41,6 +57,17 @@
 														 *			0111		0.045	0.09	0.18	0.45						*
 														 *			1000		0.018	0.045	0.09	0.18						*
 														 *			1001		0.009	0.018	0.045	0.09						*/
+	#define LSM9DS0_GYRO_HPCF_DIV1			0x00
+	#define LSM9DS0_GYRO_HPCF_DIV2			0x01
+	#define LSM9DS0_GYRO_HPCF_DIV4			0x02
+	#define LSM9DS0_GYRO_HPCF_DIV8			0x03
+	#define LSM9DS0_GYRO_HPCF_DIV16			0x04
+	#define LSM9DS0_GYRO_HPCF_DIV32			0x05
+	#define LSM9DS0_GYRO_HPCF_DIV64			0x06
+	#define LSM9DS0_GYRO_HPCF_DIV128		0x07
+	#define LSM9DS0_GYRO_HPCF_DIV256		0x08
+	#define LSM9DS0_GYRO_HPCF_DIV512		0x09
+
 
 #define LSM9DS0_GYRO_CTRL_REG3					0x22	/* Control Register 3 														*/
 	#define LSM9DS0_GYRO_CTRL_REG3_I1_INT1		0x80	/*	(0) Interrupt enable on INT_G. Active high								*/
@@ -63,11 +90,19 @@
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *			10  - 2000 dps													*
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *			11  - 2000 dps													*
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *	x:	RESERVED															*/
+	#define LSM9DS0_GYRO_FS_245DPS				0x00
+	#define LSM9DS0_GYRO_FS_500DPS				0x10
+	#define LSM9DS0_GYRO_FS_2000DPS				0x20
+
 	#define LSM9DS0_GYRO_CTRL_REG4_ST			0x06	/*	(00) Self-test mode														*
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *			00	- normal mode												*
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *			01  - self test 0 (X+, Y-, Z-)									*
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *			10	- forbidden													*
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *			11	- Self-test 1 (X-, Y+, Z+)									*/
+	#define LSM9DS0_GYRO_ST_NORMAL				0x00
+	#define LSM9DS0_GYRO_ST_SELF_0				0x02
+	#define LSM9DS0_GYRO_ST_SELF_1				0x04
+
 	#define LSM9DS0_GYRO_CTRL_REG4_SIM			0x01	/*	(0)	SPI mode selection. 0 - 4 wire, 1 - 3 wire	 	 	 	 	 	 	*/
 
 #define LSM9DS0_GYRO_CTRL_REG5					0x24	/* Control Register 5 														*/
@@ -76,7 +111,16 @@
 	#define LSM9DS0_GYRO_CTRL_REG5_H_PEN		0x20	/*	(0) High pass filter enable. Active high								*
 												0x10	 *	RESERVED																*/
 	#define LSM9DS0_GYRO_CTRL_REG5_INT1_Sel		0x0C	/*	(00) INT1 selection configuration										*/
+	#define LSM9DS0_GYRO_INT1_SRC_LPF1			0x00
+	#define LSM9DS0_GYRO_INT1_SRC_HPF			0x04
+	#define LSM9DS0_GYRO_INT1_SRC_LPF2			0x08
+
+
+
 	#define LSM9DS0_GYRO_CTRL_REG5_OUT_Sel		0x03	/*	(00) Out selection configuration										*/
+	#define LSM9DS0_GYRO_OUT_SRC_LPF1			0x00
+	#define LSM9DS0_GYRO_OUT_SRC_HPF			0x01
+	#define LSM9DS0_GYRO_OUT_SRC_LPF2			0x02
 
 #define LSM9DS0_GYRO_REFERENCE					0x25	/*	Reference value for interrupt generation. Default 0						*/
 #define LSM9DS0_GYRO_STATUS_REG					0x27	/* Status register															*/
@@ -107,6 +151,12 @@
 														 *			010	Stream														*
 														 *			011 Stream to FIFO												*
 														 *			100	Bypass to Stream											*/
+	#define LSM9DS0_GYRO_FIFO_CTRL_FM_BYPASS	0x00
+	#define LSM9DS0_GYRO_FIFO_CTRL_FM_FIFO		0x20
+	#define LSM9DS0_GYRO_FIFO_CTRL_FM_STREAM	0x40
+	#define LSM9DS0_GYRO_FIFO_CTRL_FM_STR_FIFO	0x60
+	#define LSM9DS0_GYRO_FIFO_CTRL_FM_BYP_STR	0x80
+
 	#define LSM9DS0_GYRO_FIFO_CTRL_WTM			0x1F	/*  (00000) Watermark level													*/
 
 #define LSM9DS0_GYRO_FIFO_SRC					0x2F	/* FIFO status register														*/
@@ -232,6 +282,20 @@
 																	0110	100Hz					0111	200Hz												*
 																	1000	400Hz					1001	800Hz												*
 																	1010	1600Hz																				*/
+	#define LSM9DS0_ACC_AODR_POWERDOWN			0x00
+	#define LSM9DS0_ACC_AODR_3HZ				0x01
+	#define LSM9DS0_ACC_AODR_6HZ				0x02
+	#define LSM9DS0_ACC_AODR_12HZ				0x03
+	#define LSM9DS0_ACC_AODR_25HZ				0x04
+	#define LSM9DS0_ACC_AODR_50HZ				0x05
+	#define LSM9DS0_ACC_AODR_100HZ				0x06
+	#define LSM9DS0_ACC_AODR_200HZ				0x07
+	#define LSM9DS0_ACC_AODR_400HZ				0x08
+	#define LSM9DS0_ACC_AODR_800HZ				0x09
+	#define LSM9DS0_ACC_AODR_1600HZ				0x0A
+
+
+
 	#define LSM9DS0_ACC_CTRL_REG1_BDU	 		0x08	/*		(0)	Block data update for acceleration and magnetic data										*
 																	0 - continuous update																		*
 																	1 - output registers not updated until MSB and LSB have bean read							*/
@@ -245,17 +309,34 @@
 																	01	194Hz																					*
 																	10	362Hz																					*
 																	11	50Hz																					*/
+	#define LSM9DS0_ACC_ANTI_ALIAS_BW_733HZ		0x00
+	#define LSM9DS0_ACC_ANTI_ALIAS_BW_194HZ		0x40
+	#define LSM9DS0_ACC_ANTI_ALIAS_BW_362HZ		0x80
+	#define LSM9DS0_ACC_ANTI_ALIAS_BW_50HZ		0xC0
+
+
 	#define LSM9DS0_ACC_CTRL_REG2_AFS	 		0x38	/*		(000) Acceleration full-scale selection														*
 																	000	2g																						*
 																	001	4g																						*
 																	010	6g																						*
 																	011	8g																						*
 																	100	16g																						*/
+	#define LSM9DS0_ACC_FULL_SCALE_2G			0x00
+	#define LSM9DS0_ACC_FULL_SCALE_4G			0x08
+	#define LSM9DS0_ACC_FULL_SCALE_6G			0x10
+	#define LSM9DS0_ACC_FULL_SCALE_8G			0x18
+	#define LSM9DS0_ACC_FULL_SCALE_16G			0x20
+
+
 	#define LSM9DS0_ACC_CTRL_REG2_AST	 		0x06	/*		(00) Acceleration self-test enable																*
 																	00	Normal mode																				*
 																	01	Positive sign self-test																	*
 																	10	Negative sign self-test																	*
 																	11	Not allowed																				*/
+	#define LSM9DS0_ACC_SELF_TEST_NORMAL		0x00
+	#define LSM9DS0_ACC_SELF_TEST_POSITIVE		0x02
+	#define LSM9DS0_ACC_SELF_TEST_NEGATIVE		0x04
+
 	#define LSM9DS0_ACC_CTRL_REG2_SIM	 		0x01	/*		(0) SPI Serial Interface Mode selection															*/
 
 #define LSM9DS0_MAG_CTRL_REG3					0x22	/* Accelerometer Control register 3 */
@@ -281,7 +362,10 @@
 
 #define LSM9DS0_MAG_CTRL_REG5					0x24	/* Accelerometer Control register 5 */
 	#define LSM9DS0_MAG_CTRL_REG5_TEMP_EN		0x80	/*		(0)	Temperature sensor enable	*/
-	#define LSM9DS0_MAG_CTRL_REG5_M_RES	 		0x60	/*		(00) Magnetic resolution selection: 00 - low resolution, 11 - high resolutio	*/
+	#define LSM9DS0_MAG_CTRL_REG5_M_RES	 		0x60	/*		(00) Magnetic resolution selection: 00 - low resolution, 11 - high resolution	*/
+	#define lSM9DS0_MAG_RESOLUTION_LOW			0x00
+	#define lSM9DS0_MAG_RESOLUTION_HIGH			0x60
+
 	#define LSM9DS0_MAG_CTRL_REG5_M_ODR	 		0x1C	/*		(110) Magnetic data rate selection
 																	000	3.125Hz
 																	001	6.25Hz
@@ -291,6 +375,14 @@
 																	101	100Hz (requires accelerometer ODR > 50Hz or power-down)
 																	110	Reserved
 																	111	Reserved	*/
+	#define LSM9DS0_MAG_DATA_RATE_3HZ			0x00
+	#define LSM9DS0_MAG_DATA_RATE_6HZ			0x04
+	#define LSM9DS0_MAG_DATA_RATE_12HZ			0x08
+	#define LSM9DS0_MAG_DATA_RATE_25HZ			0x0C
+	#define LSM9DS0_MAG_DATA_RATE_50HZ			0x10
+	#define LSM9DS0_MAG_DATA_RATE_100HZ			0x14
+
+
 	#define LSM9DS0_MAG_CTRL_REG5_LIR2	 		0x02	/*			(0) Latch interrupt request on INT2_SRC with it being cleared by reading INT2_SRC itself	*/
 	#define LSM9DS0_MAG_CTRL_REG5_LIR1	 		0x01	/*			(0) Latch interrupt request on INT1_SRC with it being cleared by reading INT1_SRC itself	*/
 
@@ -299,6 +391,11 @@
 	#define LSM9DS0_MAG_CTRL_REG6_MFS			0x60	/*		(01) Magnetic full-scale selection
 																	00	2 gauss			01	4 gauss
 																	10	8 gauss			11	12 gauss	*/
+	#define LSM9DS0_MAG_FULL_SCALE_2G			0x00
+	#define LSM9DS0_MAG_FULL_SCALE_4G			0x20
+	#define LSM9DS0_MAG_FULL_SCALE_8G			0x40
+	#define LSM9DS0_MAG_FULL_SCALE_12G			0x60
+
 
 #define LSM9DS0_MAG_CTRL_REG7					0x26	/* Accelerometer Control register 7 */
 	#define LSM9DS0_MAG_CTRL_REG7_AHPM	 		0xC0	/*	 	(00) High-pass filter mode selection for acceleration data
@@ -306,6 +403,12 @@
 																	01	Reference signal for filtering
 																	10	Normal mode
 																	11	Autoreset on interrupt	*/
+
+	#define LSM9DS0_MAG_HPM_NORMAL_RESET		0x00
+	#define LSM9DS0_MAG_HPM_NORMAL_REFERENCE	0x40
+	#define LSM9DS0_MAG_HPM_NORMAL_NORMAL		0x80
+	#define LSM9DS0_MAG_HPM_NORMAL_AUTORESET	0xC0
+
 	#define LSM9DS0_MAG_CTRL_REG7_AFDS	 		0x20	/*		(0)	Filtered acceleration data selection.
 																	0 - filter bypassed
 																	1 - data from internal filter sent to output register and FIFO
@@ -316,6 +419,10 @@
 																	01	Single-conversion mode
 																	10	Power down mode
 																	11	Power down mode	*/
+	#define LSM9DS0_MAG_MODE_CONTINUOUS			0x00
+	#define LSM9DS0_MAG_MODE_SINGLE				0x01
+	#define LSM9DS0_MAG_MODE_POWER_DOWN			0x02
+
 #define LSM9DS0_ACC_STATUS						0x27	/* Accelerometer status register */
 	#define LSM9DS0_ACC_STATUS_ZYXAOR	 		0x80	/*		(0) Acceleration X,Y,Z axis data overrun	*/
 	#define LSM9DS0_ACC_STATUS_ZAOR	 			0x40	/*		(0)	Acceleration Z axis overrun	*/
@@ -342,6 +449,13 @@
 																	010	Stream mode
 																	011	Stream to FIFO mode
 																	100	Bypass to stream mode	*/
+
+	#define LSM9DS0_ACC_FIFO_CTRL_FM_BYPASS		0x00
+	#define LSM9DS0_ACC_FIFO_CTRL_FM_FIFO		0x20
+	#define LSM9DS0_ACC_FIFO_CTRL_FM_STREAM		0x40
+	#define LSM9DS0_ACC_FIFO_CTRL_FM_STR_FIFO	0x60
+	#define LSM9DS0_ACC_FIFO_CTRL_FM_BYP_STR	0x80
+
 	#define LSM9DS0_ACC_FIFO_CFG_FTH	 		0x1F	/*		(0 0000) FIFO watermark level	*/
 
 #define LSM9DS0_ACC_FIFO_SRC					0x2F	/* FIFO status register */

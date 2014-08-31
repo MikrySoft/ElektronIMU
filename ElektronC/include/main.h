@@ -11,6 +11,6 @@
 #include <stm32f4xx.h>
 
 void Task_UpdateDisplay(void);
-
+void Task_ReadTemperature(void);
 
 #endif /* MAIN_H_ */

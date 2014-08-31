@@ -97,52 +97,30 @@ void UpdateDisplay(I2C_TypeDef* I2Cx)
 
 void SetDigit(uint8_t row, uint8_t column, uint8_t value, uint8_t active, uint8_t dot)
 {
-//	if ((row > 1)||(column>5)||value>15) return;
+	if ((row > 1)||(column>5)||value>15) return;
 	C96_DISP[row][column].active = active?1:0;
 	C96_DISP[row][column].dot    = dot?1:0;
 	C96_DISP[row][column].value  = value;
 }
-/*
-DisplayState GetDigit(uint8_t row, uint8_t column)
-{
-	DisplayState r = {0,0,0};
-	if ((row>1)||(column>5)) return r;
-	return C96_DISP[row][column];
-}
 
-void ShowNumber(uint8_t setting, uint32_t number)
+void ShowNumber(uint8_t settings, int32_t number)
 {
-	uint8_t row;
-	uint8_t base;
-	uint8_t i;
-	uint
-	row = (setting & DISP_TOP)?0:1;
-	base = (setting & DISP_HEX)?16:10;
-	if (setting & DISP_DIG_2)
-	{
-		if (setting & DISP_DIG_4)
-		{
-			for (i=0;i<6;i++)
-			{
-				C96_DISP[row][5-i].value	= GetDigit(number,base,i);
-				C96_DISP[row][5-i].active	=
-			}
-		}
-		else
-		{
-
-		}
+	uint8_t row = (settings&DISP_TOP);
+	uint8_t base = (settings&DISP_HEX)?16:10;
+	uint8_t visible = (settings&DISP_FILL);
+	uint8_t i,t;
+	if (number < 0) {
+		number = - number;
+		C96_DISP[row][0].active = 1;
+		C96_DISP[row][0].value = SEG_DIGIT_MID;
 	}
-	else if (setting & DISP_DIG_4)
+	for (i = 0;i<5;i++)
 	{
-
+		t = GetDigit(number,base,4-i);
+		visible = (t==0)?visible:1;
+		C96_DISP[row][i+1].active = visible;
+		C96_DISP[row][i+1].value = t;
 	}
 
 }
 
-
-int SetText(char* text)
-{
-
-	return 0;
-}*/

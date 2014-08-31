@@ -155,10 +155,6 @@ uint8_t GetDigit(uint32_t number, uint8_t base, uint8_t digit);
 void SetDigit(uint8_t row, uint8_t column, uint8_t value, uint8_t active, uint8_t dot);
 
 
-/*
-DisplayState GetDigit(uint8_t row, uint8_t column);
-int SetText(char* text);
-
 
 #define DISP_TOP	0x01 //default bottom
 
@@ -170,12 +166,6 @@ int SetText(char* text);
 
 
 
- * column:
- * 	0 - 2 digit display
- * 	1 - 4 digit display
- * 	2 - both displays
-
-void ShowNumber( uint32_t number);
-*/
+void ShowNumber(uint8_t settings, int32_t number);
 
 #endif /* DISPLAYS_H_ */
