@@ -31,9 +31,10 @@
 
 #include "stm32f4xx_it.h"
 #include "stm32f4xx.h"
+#include "TaskHandler.h"
 
 volatile uint32_t system_ticks;
-#define TIMER_FREQUENCY_HZ (1000000u)
+#define TIMER_FREQUENCY_HZ SYSTICK_FREQUENCY_HZ
 /** @addtogroup Template_Project
   * @{
   */
@@ -145,6 +146,7 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
 	system_ticks++;
+	CustomSysTickHandler();
 }
 
 void SysTick_Init(void)

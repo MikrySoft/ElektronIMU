@@ -10,6 +10,7 @@
 
 #include <stm32f4xx.h>
 
-void sleep(uint32_t wait);
+void Task_UpdateDisplay(void);
+
 
 #endif /* MAIN_H_ */

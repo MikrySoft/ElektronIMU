@@ -12,10 +12,13 @@
 #include "main.h"
 #include "LSM9DS0.h"
 #include "displays.h"
+#include "TaskHandler.h"
 
 
-
-
+void Task_UpdateDisplay(void)
+{
+	UpdateDisplay(I2C2);
+}
 
 int main(void){
 	uint8_t i,j,k;
@@ -30,7 +33,8 @@ int main(void){
 	j=TM_I2C_ReadReg(I2C1,GYRO_ADDR,0x0F);
 	sprintf(temp,"ACCEL: %i (%x)\tGYRO: %i (%x)\r\n",i,i,j,j);
 	TM_USART_Puts(USART1,temp);
-
+	STM_InitTasks();
+	STM_AddTask(1000,&Task_UpdateDisplay);
 	for (k=0;k<4;k++)
 	{
 		SetDigit(0,5-k,GetDigit(i,10,k),1,0);
@@ -44,8 +48,7 @@ int main(void){
 
 	while (1)
 	{
-		UpdateDisplay(I2C2);
-		usleep(500);
+		STM_ExecuteTasks();
 	}
 	return 0;
 }
