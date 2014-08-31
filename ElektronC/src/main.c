@@ -15,6 +15,7 @@
 #include "TaskHandler.h"
 
 
+
 void Task_UpdateDisplay(void)
 {
 	UpdateDisplay(I2C2);
@@ -29,6 +30,29 @@ void Task_ReadTemperature(void)
 	TM_USART_Puts(USART1,tekst);
 }
 
+void Task_BlinkLED(void)
+{
+	GPIO_ToggleBits(GPIOB,GPIO_Pin_2);
+	GPIO_ToggleBits(GPIOA,GPIO_Pin_4);
+}
+
+void Task_GetAcceleration(void)
+{
+	char tekst[50];
+	int16_3D_t acc = LSM9DS0_AccRead(I2C1);
+	int16_3D_t mag = LSM9DS0_MagRead(I2C1);
+	int16_3D_t gyr = LSM9DS0_GyroRead(I2C1);
+
+	sprintf(tekst,"ACC: X: %6d\tY: %6d\tZ: %6d\t",acc.X,acc.Y,acc.Z);
+	TM_USART_Puts(USART1,tekst);
+	sprintf(tekst,"MAG: X: %6d\tY: %6d\tZ: %6d\t" ,mag.X,mag.Y,mag.Z);
+	TM_USART_Puts(USART1,tekst);
+	sprintf(tekst,"GYR: X: %6d\tY: %6d\tZ: %6d\r\n",mag.X,mag.Y,mag.Z);
+	TM_USART_Puts(USART1,tekst);
+
+
+
+}
 
 int main(void){
 	LED_init();
@@ -37,11 +61,12 @@ int main(void){
 	TM_USART_Init(USART1,TM_USART_PinsPack_1,115200);
 
 	LSM9DS0_AccMInit(I2C1,LSM9DS0_ACC_FULL_SCALE_2G,LSM9DS0_ACC_AODR_1600HZ,LSM9DS0_ACC_ANTI_ALIAS_BW_733HZ,LSM9DS0_MAG_FULL_SCALE_8G,LSM9DS0_MAG_DATA_RATE_100HZ);
-
 	SysTick_Init();
 	STM_InitTasks();
 	STM_AddTask(1000,&Task_UpdateDisplay);
-	STM_AddTask(20000,&Task_ReadTemperature);
+//	STM_AddTask(20000,&Task_ReadTemperature);
+	STM_AddTask(50000,&Task_GetAcceleration);
+//	STM_AddTask(1000000,&Task_BlinkLED);
 	while (1)
 	{
 		STM_ExecuteTasks();

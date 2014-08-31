@@ -105,7 +105,7 @@ void SetDigit(uint8_t row, uint8_t column, uint8_t value, uint8_t active, uint8_
 
 void ShowNumber(uint8_t settings, int32_t number)
 {
-	uint8_t row = (settings&DISP_TOP);
+	uint8_t row = (settings&DISP_TOP)?0:1;
 	uint8_t base = (settings&DISP_HEX)?16:10;
 	uint8_t visible = (settings&DISP_FILL);
 	uint8_t i,t;

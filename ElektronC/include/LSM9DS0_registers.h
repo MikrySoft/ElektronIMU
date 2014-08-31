@@ -283,16 +283,16 @@
 																	1000	400Hz					1001	800Hz												*
 																	1010	1600Hz																				*/
 	#define LSM9DS0_ACC_AODR_POWERDOWN			0x00
-	#define LSM9DS0_ACC_AODR_3HZ				0x01
-	#define LSM9DS0_ACC_AODR_6HZ				0x02
-	#define LSM9DS0_ACC_AODR_12HZ				0x03
-	#define LSM9DS0_ACC_AODR_25HZ				0x04
-	#define LSM9DS0_ACC_AODR_50HZ				0x05
-	#define LSM9DS0_ACC_AODR_100HZ				0x06
-	#define LSM9DS0_ACC_AODR_200HZ				0x07
-	#define LSM9DS0_ACC_AODR_400HZ				0x08
-	#define LSM9DS0_ACC_AODR_800HZ				0x09
-	#define LSM9DS0_ACC_AODR_1600HZ				0x0A
+	#define LSM9DS0_ACC_AODR_3HZ				0x10
+	#define LSM9DS0_ACC_AODR_6HZ				0x20
+	#define LSM9DS0_ACC_AODR_12HZ				0x30
+	#define LSM9DS0_ACC_AODR_25HZ				0x40
+	#define LSM9DS0_ACC_AODR_50HZ				0x50
+	#define LSM9DS0_ACC_AODR_100HZ				0x60
+	#define LSM9DS0_ACC_AODR_200HZ				0x70
+	#define LSM9DS0_ACC_AODR_400HZ				0x80
+	#define LSM9DS0_ACC_AODR_800HZ				0x90
+	#define LSM9DS0_ACC_AODR_1600HZ				0xA0
 
 
 
