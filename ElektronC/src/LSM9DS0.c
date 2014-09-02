@@ -54,29 +54,21 @@ void LSM9DS0_AccMInit(I2C_TypeDef* I2Cx, uint8_t acc_scale, uint8_t acc_odr,uint
 
 int16_t LSM9DS0_ReadTemp(I2C_TypeDef* I2Cx)
 {
-	uint8_t h,l;
 	int16_t r;
-	h = TM_I2C_ReadReg(I2Cx,ACCEL_ADDR,LSM9DS0_TEMP_H);
-	l = TM_I2C_ReadReg(I2Cx,ACCEL_ADDR,LSM9DS0_TEMP_L);
-	r = ((h<<8)|l)&0x0FFF;
+	uint8_t data[LSM9DS0_TEMP_COUNT];
+	TM_I2C_ReadMulti(I2Cx,ACCEL_ADDR,LSM9DS0_TEMP_ADDR,data,LSM9DS0_TEMP_COUNT);
+	r = ((data[0]<<8)|data[1])&0x0FFF;
 	r |= (r>>11)?0xF000:0x0000;
 	return r;
 }
 
 
-int16_3D_t LSM9DS0_GyroRead(I2C_TypeDef* I2Cx)
+int16_3D_t LSM9DS0_GyroRead(I2C_TypeDef* I2Cx, float_3D_t* rotation)
 {
 	int16_3D_t result = {0,0,0};
-	uint8_t msb,lsb;
-	msb = TM_I2C_ReadReg(I2Cx,GYRO_ADDR,LSM9DS0_GYRO_OUT_X_H);
-	lsb = TM_I2C_ReadReg(I2Cx,GYRO_ADDR,LSM9DS0_GYRO_OUT_X_L);
-	result.X = (msb << 8)|lsb;
-	msb = TM_I2C_ReadReg(I2Cx,GYRO_ADDR,LSM9DS0_GYRO_OUT_Y_H);
-	lsb = TM_I2C_ReadReg(I2Cx,GYRO_ADDR,LSM9DS0_GYRO_OUT_Y_L);
-	result.Y = (msb << 8)|lsb;
-	msb = TM_I2C_ReadReg(I2Cx,GYRO_ADDR,LSM9DS0_GYRO_OUT_Z_H);
-	lsb = TM_I2C_ReadReg(I2Cx,GYRO_ADDR,LSM9DS0_GYRO_OUT_Z_L);
-	result.Z = (msb << 8)|lsb;
+	uint8_t data[LSM9DS0_GYRO_COUNT];
+	TM_I2C_ReadMulti(I2Cx,GYRO_ADDR,LSM9DS0_GYRO_ADDR,data,LSM9DS0_GYRO_COUNT);
+
 	return result;
 }
 

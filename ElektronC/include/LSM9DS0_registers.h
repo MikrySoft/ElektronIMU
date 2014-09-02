@@ -20,6 +20,7 @@
 	#define LSM9DS0_GYRO_ODR_380HZ				0x80
 	#define LSM9DS0_GYRO_ODR_760HZ				0xC0
 
+
 	#define LSM9DS0_GYRO_CTRL_REG1_BW			0x30	/* Bandwidth 																*/
 	#define LSM9DS0_GYRO_BW_LOW					0x00
 	#define LSM9DS0_GYRO_BW_MID					0x10
@@ -93,6 +94,9 @@
 	#define LSM9DS0_GYRO_FS_245DPS				0x00
 	#define LSM9DS0_GYRO_FS_500DPS				0x10
 	#define LSM9DS0_GYRO_FS_2000DPS				0x20
+	#define LSM9DS0_GYRO_FS_MULTIPLIER_245DPS		(8.75)
+	#define LSM9DS0_GYRO_FS_MULTIPLIER_500DPS		(17.5)
+	#define LSM9DS0_GYRO_FS_MULTIPLIER_2000DPS		(70)
 
 	#define LSM9DS0_GYRO_CTRL_REG4_ST			0x06	/*	(00) Self-test mode														*
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *			00	- normal mode												*
@@ -135,14 +139,15 @@
 	#define LSM9DS0_GYRO_STATUS_REG_YDA			0x02	/*	(0)	Y axis data available												*/
 	#define LSM9DS0_GYRO_STATUS_REG_XDA			0x01	/*	(0) X axis data available												*/
 
-#define LSM9DS0_GYRO_OUT_X_L					0x28	/* X axis output register LSB												*/
-#define LSM9DS0_GYRO_OUT_X_H					0x29	/* X axis output register MSB												*/
 
-#define LSM9DS0_GYRO_OUT_Y_L					0x2A	/* Y axis output register LSB												*/
-#define LSM9DS0_GYRO_OUT_Y_H					0x2B	/* Y axis output register MSB												*/
-
-#define LSM9DS0_GYRO_OUT_Z_L					0x2C	/* Z axis output register LSB												*/
-#define LSM9DS0_GYRO_OUT_Z_H					0x2D	/* Z axis output register MSB												*/
+#define LSM9DS0_GYRO_ADDR						0x28
+#define LSM9DS0_GYRO_COUNT						6
+	#define LSM9DS0_GYRO_OUT_X_L				0x28	/* X axis output register LSB												*/
+	#define LSM9DS0_GYRO_OUT_X_H				0x29	/* X axis output register MSB												*/
+	#define LSM9DS0_GYRO_OUT_Y_L				0x2A	/* Y axis output register LSB												*/
+	#define LSM9DS0_GYRO_OUT_Y_H				0x2B	/* Y axis output register MSB												*/
+	#define LSM9DS0_GYRO_OUT_Z_L				0x2C	/* Z axis output register LSB												*/
+	#define LSM9DS0_GYRO_OUT_Z_H				0x2D	/* Z axis output register MSB												*/
 
 #define LSM9DS0_GYRO_FIFO_CTRL					0x2E	/* FIFO Control register													*/
 	#define LSM9DS0_GYRO_FIFO_CTRL_FM			0xE0	/*  (000) FIFO mode selection												*
@@ -188,14 +193,14 @@
 	#define LSM9DS0_GYRO_INT1_SRC_XH			0x02	/*			(0)	X high event occurred										*/
 	#define LSM9DS0_GYRO_INT1_SRC_XL			0x01	/*			(0)	X low event occurred										*/
 
-#define LSM9DS0_GYRO_INT1_TH_XH					0x32	/* Interrupt 1 Threshold: X MSB	Max: 0x7F									*/
-#define LSM9DS0_GYRO_INT1_TH_XL					0x33	/* Interrupt 1 Threshold: X LSB												*/
-
-#define LSM9DS0_GYRO_INT1_TH_YH					0x34	/* Interrupt 1 Threshold: Y MSB	Max: 0x7F 									*/
-#define LSM9DS0_GYRO_INT1_TH_YL					0x35	/* Interrupt 1 Threshold: Y LSB												*/
-
-#define LSM9DS0_GYRO_INT1_TH_ZH					0x36	/* Interrupt 1 Threshold: X MSB	Max: 0x7F 									*/
-#define LSM9DS0_GYRO_INT1_TH_ZL					0x37	/* Interrupt 1 Threshold: X LSB												*/
+#define LSM9DS0_GYRO_INT1_TH_ADDR				0x32
+#define LSM9DS0_GYRO_INT1_TH_COUNT				6
+	#define LSM9DS0_GYRO_INT1_TH_XH				0x32	/* Interrupt 1 Threshold: X MSB	Max: 0x7F									*/
+	#define LSM9DS0_GYRO_INT1_TH_XL				0x33	/* Interrupt 1 Threshold: X LSB												*/
+	#define LSM9DS0_GYRO_INT1_TH_YH				0x34	/* Interrupt 1 Threshold: Y MSB	Max: 0x7F 									*/
+	#define LSM9DS0_GYRO_INT1_TH_YL				0x35	/* Interrupt 1 Threshold: Y LSB												*/
+	#define LSM9DS0_GYRO_INT1_TH_ZH				0x36	/* Interrupt 1 Threshold: X MSB	Max: 0x7F 									*/
+	#define LSM9DS0_GYRO_INT1_TH_ZL				0x37	/* Interrupt 1 Threshold: X LSB												*/
 
 #define LSM9DS0_GYRO_INT1_DUR					0x38	/* Interrupt 1 configuration register 										*/
 	#define LSM9DS0_GYRO_INT1_DUR_WAIT			0x80	/*	Wait enable. Active high
@@ -206,8 +211,11 @@
 /*****************************************************************************************************************************************************/
 #define ACCEL_ADDR 0x3A
 
-#define LSM9DS0_TEMP_L							0x05	/* Temperature sensor LSB */
-#define LSM9DS0_TEMP_H							0x06	/* Temperature sensor MSB */
+
+#define LSM9DS0_TEMP_ADDR						0x05
+#define LSM9DS0_TEMP_COUNT						2
+	#define LSM9DS0_TEMP_L						0x05	/* Temperature sensor LSB */
+	#define LSM9DS0_TEMP_H						0x06	/* Temperature sensor MSB */
 
 #define LSM9DS0_MAG_STATUS						0x07	/* Magnetometer status register */
 	#define LSM9DS0_MAG_STATUS_ZYXMOR			0x80	/*		X,Y,Z data overrun	*/
@@ -219,12 +227,14 @@
 	#define LSM9DS0_MAG_STATUS_YMDA				0x02	/*		Y new data available	*/
 	#define LSM9DS0_MAG_STATUS_XMDA				0x01	/*		X new data available	*/
 
-#define LSM9DS0_MAG_OUT_X_L						0x08	/*  X axis magnetic data LSB */
-#define LSM9DS0_MAG_OUT_X_H						0x09	/*  X axis magnetic data MSB		16 bit, two's complement, left justified */
-#define LSM9DS0_MAG_OUT_Y_L						0x0A	/*  Y axis magnetic data LSB */
-#define LSM9DS0_MAG_OUT_Y_H						0x0B	/*  Y axis magnetic data MSB */
-#define LSM9DS0_MAG_OUT_Z_L						0x0C	/*  Z axis magnetic data LSB */
-#define LSM9DS0_MAG_OUT_Z_H						0x0D	/*  Z axis magnetic data MSB */
+#define LSM9DS0_MAG_ADDR						0x08
+#define LSM9DS0_MAG_COUNT						6
+	#define LSM9DS0_MAG_OUT_X_L					0x08	/*  X axis magnetic data LSB */
+	#define LSM9DS0_MAG_OUT_X_H					0x09	/*  X axis magnetic data MSB		16 bit, two's complement, left justified */
+	#define LSM9DS0_MAG_OUT_Y_L					0x0A	/*  Y axis magnetic data LSB */
+	#define LSM9DS0_MAG_OUT_Y_H					0x0B	/*  Y axis magnetic data MSB */
+	#define LSM9DS0_MAG_OUT_Z_L					0x0C	/*  Z axis magnetic data LSB */
+	#define LSM9DS0_MAG_OUT_Z_H					0x0D	/*  Z axis magnetic data MSB */
 
 #define LSM9DS0_MAG_WHOAMI	0x0F						/*  Device identification register = 0x49 */
 
@@ -248,21 +258,26 @@
 	#define LSM9DS0_MAG_INT_SRC_M_PTH_XMROI	 	0x02	/*			(0) Internal measurement range overflow on magnetic value. To enable set MIEN@MAG_INT_CFG	*/
 	#define LSM9DS0_MAG_INT_SRC_M_PTH_XMINT	 	0x01	/*			(0)	Magnetic value over threshold	*/
 
-#define LSM9DS0_MAG_INT_TH_L					0x14	/* Magnetic interrupt threshold LSB. Default 0. 16bit unsigned*/
-#define LSM9DS0_MAG_INT_TH_H					0x15	/* Magnetic interrupt threshold MSB */
 
-#define LSM9DS0_MAG_OFFSET_X_L					0x16	/* Magnetic offset for X axis LSB. 16 bit two's complement left justfified	 */
-#define LSM9DS0_MAG_OFFSET_X_H					0x17	/* Magnetic offset for X axis MSB */
+#define LSM9DS0_MAG_INT_TH_ADDR					0x14
+#define LSM9DS0_MAG_INT_TH_COUNT				2
+	#define LSM9DS0_MAG_INT_TH_L				0x14	/* Magnetic interrupt threshold LSB. Default 0. 16bit unsigned*/
+	#define LSM9DS0_MAG_INT_TH_H				0x15	/* Magnetic interrupt threshold MSB */
 
-#define LSM9DS0_MAG_OFFSET_Y_L					0x18	/* Magnetic offset for Y axis LSB. 16 bit two's complement left justfified	 */
-#define LSM9DS0_MAG_OFFSET_Y_H					0x19	/* Magnetic offset for Y axis MSB */
+#define LSM9DS0_MAG_OFFSET_ADDR					0x16
+#define LSM9DS0_MAG_OFFSET_COUNT				6
+	#define LSM9DS0_MAG_OFFSET_X_L				0x16	/* Magnetic offset for X axis LSB. 16 bit two's complement left justfified	 */
+	#define LSM9DS0_MAG_OFFSET_X_H				0x17	/* Magnetic offset for X axis MSB */
+	#define LSM9DS0_MAG_OFFSET_Y_L				0x18	/* Magnetic offset for Y axis LSB. 16 bit two's complement left justfified	 */
+	#define LSM9DS0_MAG_OFFSET_Y_H				0x19	/* Magnetic offset for Y axis MSB */
+	#define LSM9DS0_MAG_OFFSET_Z_L				0x1A	/* Magnetic offset for Z axis LSB. 16 bit two's complement left justfified	 */
+	#define LSM9DS0_MAG_OFFSET_Z_H				0x1B	/* Magnetic offset for Z axis MSB */
 
-#define LSM9DS0_MAG_OFFSET_Z_L					0x1A	/* Magnetic offset for Z axis LSB. 16 bit two's complement left justfified	 */
-#define LSM9DS0_MAG_OFFSET_Z_H					0x1B	/* Magnetic offset for Z axis MSB */
-
-#define LSM9DS0_ACC_REF_X						0x1C	/* Reference value for high-pass filter for X-axis acceleration data  */
-#define LSM9DS0_ACC_REF_Y						0x1D	/* Reference value for high-pass filter for Y-axis acceleration data */
-#define LSM9DS0_ACC_REF_Z						0x1E	/* Reference value for high-pass filter for Z-axis acceleration data */
+#define LSM9DS0_ACC_REF_ADDR					0x1C
+#define LSM9DS0_ACC_REF_COUNT					3
+	#define LSM9DS0_ACC_REF_X					0x1C	/* Reference value for high-pass filter for X-axis acceleration data  */
+	#define LSM9DS0_ACC_REF_Y					0x1D	/* Reference value for high-pass filter for Y-axis acceleration data */
+	#define LSM9DS0_ACC_REF_Z					0x1E	/* Reference value for high-pass filter for Z-axis acceleration data */
 
 #define LSM9DS0_ACC_CTRL_REG0					0x1F	/* Accelerometer Control register 0 																	*/
 	#define LSM9DS0_ACC_CTRL_REG0_BOOT	 		0x80	/*		(0)	Reboot memory content. 0 - normal mode, 1 - reboot memory									*/
@@ -326,6 +341,12 @@
 	#define LSM9DS0_ACC_FULL_SCALE_6G			0x10
 	#define LSM9DS0_ACC_FULL_SCALE_8G			0x18
 	#define LSM9DS0_ACC_FULL_SCALE_16G			0x20
+
+	#define LSM9DS0_ACC_MULTIPLIER_2G			(0.061)
+	#define LSM9DS0_ACC_MULTIPLIER_4G			(0.122)
+	#define LSM9DS0_ACC_MULTIPLIER_6G			(0.183)
+	#define LSM9DS0_ACC_MULTIPLIER_8G			(0.244)
+	#define LSM9DS0_ACC_MULTIPLIER_16G			(0.732)
 
 
 	#define LSM9DS0_ACC_CTRL_REG2_AST	 		0x06	/*		(00) Acceleration self-test enable																*
@@ -395,6 +416,10 @@
 	#define LSM9DS0_MAG_FULL_SCALE_4G			0x20
 	#define LSM9DS0_MAG_FULL_SCALE_8G			0x40
 	#define LSM9DS0_MAG_FULL_SCALE_12G			0x60
+	#define LSM9DS0_MAG_MULTIPLIER_2G			(0.08)
+	#define LSM9DS0_MAG_MULTIPLIER_4G			(0.16)
+	#define LSM9DS0_MAG_MULTIPLIER_8G			(0.32)
+	#define LSM9DS0_MAG_MULTIPLIER_12G			(0.48)
 
 
 #define LSM9DS0_MAG_CTRL_REG7					0x26	/* Accelerometer Control register 7 */
@@ -433,14 +458,15 @@
 	#define LSM9DS0_ACC_STATUS_YADA	 			0x02	/*		(0) Acceleration Y axis new value available	*/
 	#define LSM9DS0_ACC_STATUS_XADA	 			0x01	/*		(0)	Acceleration X axis new value available	*/
 
-#define LSM9DS0_ACC_OUT_X_L						0x28	/*  X axis acceleration data LSB. 16 bit, two's complement left justified */
-#define LSM9DS0_ACC_OUT_X_H						0x29	/*  X axis acceleration data MSB */
 
-#define LSM9DS0_ACC_OUT_Y_L						0x2A	/*  Y axis accelerati!n data LSB */
-#define LSM9DS0_ACC_OUT_Y_H						0x2B	/*  Y axis acceleration data MSB */
-
-#define LSM9DS0_ACC_OUT_Z_L						0x2C	/*  Z axis acceleration data LSB */
-#define LSM9DS0_ACC_OUT_Z_H						0x2D	/*  Z axis acceleration data MSB */
+#define LSM9DS0_ACC_OUT_ADDR					0x28
+#define LSM9DS0_ACC_OUT_COUNT					6
+	#define LSM9DS0_ACC_OUT_X_L					0x28	/*  X axis acceleration data LSB. 16 bit, two's complement left justified */
+	#define LSM9DS0_ACC_OUT_X_H					0x29	/*  X axis acceleration data MSB */
+	#define LSM9DS0_ACC_OUT_Y_L					0x2A	/*  Y axis accelerati!n data LSB */
+	#define LSM9DS0_ACC_OUT_Y_H					0x2B	/*  Y axis acceleration data MSB */
+	#define LSM9DS0_ACC_OUT_Z_L					0x2C	/*  Z axis acceleration data LSB */
+	#define LSM9DS0_ACC_OUT_Z_H					0x2D	/*  Z axis acceleration data MSB */
 
 #define LSM9DS0_ACC_FIFO_CFG					0x2E	/* FIFO Configuration register */
 	#define LSM9DS0_ACC_FIFO_CFG_FM				0xE0	/*		(000) FIFO mode selection
