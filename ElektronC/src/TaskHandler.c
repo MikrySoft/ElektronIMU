@@ -94,7 +94,7 @@ void CustomSysTickHandler(void)
 	uint8_t task;
 	for (task = 0; task < MAX_TASK;task++)
 	{
-		if (tasks[task].active)
+		if (tasks[task].active && (!(tasks[task].trigger)))
 		{
 			if (tasks[task].timer)
 			{

@@ -72,7 +72,7 @@
 
 #define LSM9DS0_GYRO_CTRL_REG3					0x22	/* Control Register 3 														*/
 	#define LSM9DS0_GYRO_CTRL_REG3_I1_INT1		0x80	/*	(0) Interrupt enable on INT_G. Active high								*/
-	#define LSM9DS0_GYRO_CTRL_REG3I1_BOOT		0x40	/*	(0) Boot status avaliable on INT_G. Active high							*/
+	#define LSM9DS0_GYRO_CTRL_REG3_I1_BOOT		0x40	/*	(0) Boot status avaliable on INT_G. Active high							*/
 	#define LSM9DS0_GYRO_CTRL_REG3_H_Lactive	0x20	/*	(0) Interrupt active configuration on INT_G. 0=high, 1=low				*/
 	#define LSM9DS0_GYRO_CTRL_REG3_PP_OD		0x10	/*	(0) 1=Open Drain, 0 = Push-Pull											*/
 	#define LSM9DS0_GYRO_CTRL_REG3_I2_DRDY		0x08	/*	(0) Data ready on DRDY_G. Active high									*/
@@ -140,7 +140,7 @@
 	#define LSM9DS0_GYRO_STATUS_REG_XDA			0x01	/*	(0) X axis data available												*/
 
 
-#define LSM9DS0_GYRO_ADDR						0x28
+#define LSM9DS0_GYRO_ADDR						0xA8
 #define LSM9DS0_GYRO_COUNT						6
 	#define LSM9DS0_GYRO_OUT_X_L				0x28	/* X axis output register LSB												*/
 	#define LSM9DS0_GYRO_OUT_X_H				0x29	/* X axis output register MSB												*/
@@ -193,7 +193,7 @@
 	#define LSM9DS0_GYRO_INT1_SRC_XH			0x02	/*			(0)	X high event occurred										*/
 	#define LSM9DS0_GYRO_INT1_SRC_XL			0x01	/*			(0)	X low event occurred										*/
 
-#define LSM9DS0_GYRO_INT1_TH_ADDR				0x32
+#define LSM9DS0_GYRO_INT1_TH_ADDR				0xB2
 #define LSM9DS0_GYRO_INT1_TH_COUNT				6
 	#define LSM9DS0_GYRO_INT1_TH_XH				0x32	/* Interrupt 1 Threshold: X MSB	Max: 0x7F									*/
 	#define LSM9DS0_GYRO_INT1_TH_XL				0x33	/* Interrupt 1 Threshold: X LSB												*/
@@ -212,7 +212,7 @@
 #define ACCEL_ADDR 0x3A
 
 
-#define LSM9DS0_TEMP_ADDR						0x05
+#define LSM9DS0_TEMP_ADDR						0x85
 #define LSM9DS0_TEMP_COUNT						2
 	#define LSM9DS0_TEMP_L						0x05	/* Temperature sensor LSB */
 	#define LSM9DS0_TEMP_H						0x06	/* Temperature sensor MSB */
@@ -227,7 +227,7 @@
 	#define LSM9DS0_MAG_STATUS_YMDA				0x02	/*		Y new data available	*/
 	#define LSM9DS0_MAG_STATUS_XMDA				0x01	/*		X new data available	*/
 
-#define LSM9DS0_MAG_ADDR						0x08
+#define LSM9DS0_MAG_ADDR						0x88
 #define LSM9DS0_MAG_COUNT						6
 	#define LSM9DS0_MAG_OUT_X_L					0x08	/*  X axis magnetic data LSB */
 	#define LSM9DS0_MAG_OUT_X_H					0x09	/*  X axis magnetic data MSB		16 bit, two's complement, left justified */
@@ -259,12 +259,12 @@
 	#define LSM9DS0_MAG_INT_SRC_M_PTH_XMINT	 	0x01	/*			(0)	Magnetic value over threshold	*/
 
 
-#define LSM9DS0_MAG_INT_TH_ADDR					0x14
+#define LSM9DS0_MAG_INT_TH_ADDR					0x94
 #define LSM9DS0_MAG_INT_TH_COUNT				2
 	#define LSM9DS0_MAG_INT_TH_L				0x14	/* Magnetic interrupt threshold LSB. Default 0. 16bit unsigned*/
 	#define LSM9DS0_MAG_INT_TH_H				0x15	/* Magnetic interrupt threshold MSB */
 
-#define LSM9DS0_MAG_OFFSET_ADDR					0x16
+#define LSM9DS0_MAG_OFFSET_ADDR					0x96
 #define LSM9DS0_MAG_OFFSET_COUNT				6
 	#define LSM9DS0_MAG_OFFSET_X_L				0x16	/* Magnetic offset for X axis LSB. 16 bit two's complement left justfified	 */
 	#define LSM9DS0_MAG_OFFSET_X_H				0x17	/* Magnetic offset for X axis MSB */
@@ -273,7 +273,7 @@
 	#define LSM9DS0_MAG_OFFSET_Z_L				0x1A	/* Magnetic offset for Z axis LSB. 16 bit two's complement left justfified	 */
 	#define LSM9DS0_MAG_OFFSET_Z_H				0x1B	/* Magnetic offset for Z axis MSB */
 
-#define LSM9DS0_ACC_REF_ADDR					0x1C
+#define LSM9DS0_ACC_REF_ADDR					0x9C
 #define LSM9DS0_ACC_REF_COUNT					3
 	#define LSM9DS0_ACC_REF_X					0x1C	/* Reference value for high-pass filter for X-axis acceleration data  */
 	#define LSM9DS0_ACC_REF_Y					0x1D	/* Reference value for high-pass filter for Y-axis acceleration data */
@@ -366,7 +366,7 @@
 	#define LSM9DS0_MAG_CTRL_REG3_P1_INT1	 	0x20	/*		(0)	Inertial interrupt generator 1 on INT1_XM	*/
 	#define LSM9DS0_MAG_CTRL_REG3_P1_INT2	 	0x10	/*		(0) Inertial interrupt generator 2 on INT1_XM	*/
 	#define LSM9DS0_MAG_CTRL_REG3_P1_INTM	 	0x08	/*		(0)	Magnetic interrupt generator on INT1_XM	*/
-	#define LSM9DS0_MAG_CTRL_REG3_P1_DRDYA	 	0x04	/*		(0)	Accelerometer data-ready signal on INT1_XM	*/
+	#define LSM9DS0_MAG_CTRL_REG3_P1_DRDYA		0x04	/*		(0)	Accelerometer data-ready signal on INT1_XM	*/
 	#define LSM9DS0_MAG_CTRL_REG3_P1_DRDYM	 	0x02	/*		(0) Magnetometer data-ready signal on INT1_XM	*/
 	#define LSM9DS0_MAG_CTRL_REG3_P1_EMPTY	 	0x01	/*		(0) FIFO empty indication on INT1_XM	*/
 
@@ -384,8 +384,8 @@
 #define LSM9DS0_MAG_CTRL_REG5					0x24	/* Accelerometer Control register 5 */
 	#define LSM9DS0_MAG_CTRL_REG5_TEMP_EN		0x80	/*		(0)	Temperature sensor enable	*/
 	#define LSM9DS0_MAG_CTRL_REG5_M_RES	 		0x60	/*		(00) Magnetic resolution selection: 00 - low resolution, 11 - high resolution	*/
-	#define lSM9DS0_MAG_RESOLUTION_LOW			0x00
-	#define lSM9DS0_MAG_RESOLUTION_HIGH			0x60
+	#define LSM9DS0_MAG_RESOLUTION_LOW			0x00
+	#define LSM9DS0_MAG_RESOLUTION_HIGH			0x60
 
 	#define LSM9DS0_MAG_CTRL_REG5_M_ODR	 		0x1C	/*		(110) Magnetic data rate selection
 																	000	3.125Hz
@@ -459,11 +459,11 @@
 	#define LSM9DS0_ACC_STATUS_XADA	 			0x01	/*		(0)	Acceleration X axis new value available	*/
 
 
-#define LSM9DS0_ACC_OUT_ADDR					0x28
+#define LSM9DS0_ACC_OUT_ADDR					0xA8
 #define LSM9DS0_ACC_OUT_COUNT					6
 	#define LSM9DS0_ACC_OUT_X_L					0x28	/*  X axis acceleration data LSB. 16 bit, two's complement left justified */
 	#define LSM9DS0_ACC_OUT_X_H					0x29	/*  X axis acceleration data MSB */
-	#define LSM9DS0_ACC_OUT_Y_L					0x2A	/*  Y axis accelerati!n data LSB */
+	#define LSM9DS0_ACC_OUT_Y_L					0x2A	/*  Y axis acceleration data LSB */
 	#define LSM9DS0_ACC_OUT_Y_H					0x2B	/*  Y axis acceleration data MSB */
 	#define LSM9DS0_ACC_OUT_Z_L					0x2C	/*  Z axis acceleration data LSB */
 	#define LSM9DS0_ACC_OUT_Z_H					0x2D	/*  Z axis acceleration data MSB */

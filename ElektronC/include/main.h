@@ -12,5 +12,8 @@
 
 void Task_UpdateDisplay(void);
 void Task_ReadTemperature(void);
+void Task_BlinkLED(void);
+void Task_GetAcceleration(void);
+
 
 #endif /* MAIN_H_ */
