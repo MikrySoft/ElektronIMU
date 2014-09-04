@@ -157,6 +157,15 @@ int8_t LSM9DS0_GyroConfigure(LSM9DS0_Gyro_TypeDef* gyro);
 int8_t LSM9DS0_AccMConfigure(LSM9DS0_AccM_TypeDef* accM);
 int16_t LSM9DS0_ReadTemp(LSM9DS0_AccM_TypeDef* accM);
 
+int8_t LSM9DS0_GyroReadRaw(LSM9DS0_Gyro_TypeDef* gyro, int16_3D_t *result);
+int8_t LSM9DS0_AccReadRaw(LSM9DS0_AccM_TypeDef *acc, int16_3D_t *result);
+int8_t LSM9DS0_MagReadRaw(LSM9DS0_AccM_TypeDef *mag, int16_3D_t *result);
+
+void LSM9DS0_GyroScaleData(LSM9DS0_Gyro_TypeDef* gyro, int16_3D_t *source, float_3D_t *result);
+void LSM9DS0_AccScaleData(LSM9DS0_AccM_TypeDef* acc, int16_3D_t *source, float_3D_t *result);
+void LSM9DS0_MagScaleData(LSM9DS0_AccM_TypeDef* mag, int16_3D_t *source, float_3D_t *result);
+
+
 int8_t LSM9DS0_GyroRead(LSM9DS0_Gyro_TypeDef *gyro, float_3D_t *result);
 int8_t LSM9DS0_AccRead(LSM9DS0_AccM_TypeDef *acc, float_3D_t *result);
 int8_t LSM9DS0_MagRead(LSM9DS0_AccM_TypeDef *mag, float_3D_t *result);

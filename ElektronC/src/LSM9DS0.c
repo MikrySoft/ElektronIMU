@@ -51,7 +51,6 @@ int8_t LSM9DS0_GyroInit(LSM9DS0_Gyro_TypeDef* gyro, I2C_TypeDef* I2Cx, uint8_t a
 	gyro->IntYLowEnable			= 0;
 	gyro->IntXHighEnable		= 0;
 	gyro->IntXLowEnable			= 0;
-	LSM9DS0_GyroConfigure(gyro);
 	return 0;
 }
 
@@ -212,7 +211,6 @@ int8_t LSM9DS0_AccMInit(LSM9DS0_AccM_TypeDef* accM, I2C_TypeDef* I2Cx, uint8_t a
 	accM->AccClickYSingle				=0;
 	accM->AccClickXDouble				=0;
 	accM->AccClickXSingle				=0;
-	LSM9DS0_AccMConfigure(accM);
 	return 0;
 
 }
@@ -349,79 +347,118 @@ int16_t LSM9DS0_ReadTemp(LSM9DS0_AccM_TypeDef* accM)
 }
 
 
-int8_t LSM9DS0_GyroRead(LSM9DS0_Gyro_TypeDef* gyro, float_3D_t* rotation)
+int8_t LSM9DS0_GyroReadRaw(LSM9DS0_Gyro_TypeDef* gyro, int16_3D_t* result)
 {
-	float mult=0;
 	uint8_t data[LSM9DS0_GYRO_COUNT];
-	int16_t x,y,z;
 	if (!gyro) return -1;
 	if (!(gyro->I2C)) return -2;
-	if (!rotation) return -3;
-	switch (gyro->FullScale){
-		case LSM9DS0_GYRO_FS_245DPS: mult = LSM9DS0_GYRO_FS_MULTIPLIER_245DPS; break;
-		case LSM9DS0_GYRO_FS_500DPS: mult = LSM9DS0_GYRO_FS_MULTIPLIER_500DPS; break;
-		case LSM9DS0_GYRO_FS_2000DPS: mult = LSM9DS0_GYRO_FS_MULTIPLIER_2000DPS; break;
-	}
+	if (!result) return -3;
 	TM_I2C_ReadMulti(gyro->I2C,gyro->Address,LSM9DS0_GYRO_ADDR,data,LSM9DS0_GYRO_COUNT);
-	x = (data[1]<<8)|data[0];
-	y = (data[3]<<8)|data[2];
-	z = (data[5]<<8)|data[4];
-	rotation->X = x*mult;
-	rotation->Y = y*mult;
-	rotation->Z = z*mult;
+	result->X = (data[1]<<8)|data[0];
+	result->Y = (data[3]<<8)|data[2];
+	result->Z = (data[5]<<8)|data[4];
 	return 0;
 }
 
-int8_t LSM9DS0_AccRead(LSM9DS0_AccM_TypeDef* accel, float_3D_t* acceleration)
+int8_t LSM9DS0_AccReadRaw(LSM9DS0_AccM_TypeDef *acc, int16_3D_t *result)
 {
-	float mult=0;
 	uint8_t data[LSM9DS0_ACC_OUT_COUNT];
-	int16_t x,y,z;
-	if (!accel) return -1;
-	if (!(accel->I2C)) return -2;
-	if (!acceleration) return -3;
-	switch (accel->AccFullScale){
-		case LSM9DS0_ACC_FULL_SCALE_2G: mult = LSM9DS0_ACC_MULTIPLIER_2G; break;
-		case LSM9DS0_ACC_FULL_SCALE_4G: mult = LSM9DS0_ACC_MULTIPLIER_4G; break;
-		case LSM9DS0_ACC_FULL_SCALE_6G: mult = LSM9DS0_ACC_MULTIPLIER_6G; break;
-		case LSM9DS0_ACC_FULL_SCALE_8G: mult = LSM9DS0_ACC_MULTIPLIER_8G; break;
-		case LSM9DS0_ACC_FULL_SCALE_16G: mult = LSM9DS0_ACC_MULTIPLIER_16G; break;
-	}
-	TM_I2C_ReadMulti(accel->I2C,accel->Address,LSM9DS0_ACC_OUT_ADDR,data,LSM9DS0_ACC_OUT_COUNT);
+	if (!acc) return -1;
+	if (!(acc->I2C)) return -2;
+	if (!result) return -3;
+	TM_I2C_ReadMulti(acc->I2C,acc->Address,LSM9DS0_ACC_OUT_ADDR,data,LSM9DS0_ACC_OUT_COUNT);
+	result->X = (data[1]<<8)|data[0];
+	result->Y = (data[3]<<8)|data[2];
+	result->Z = (data[5]<<8)|data[4];
 
-	x = (data[1]<<8)|data[0];
-	y = (data[3]<<8)|data[2];
-	z = (data[5]<<8)|data[4];
-	acceleration->X = x*mult;
-	acceleration->Y = y*mult;
-	acceleration->Z = z*mult;
 	return 0;
-
 }
 
-int8_t LSM9DS0_MagRead(LSM9DS0_AccM_TypeDef* mag, float_3D_t* magnetism)
+int8_t LSM9DS0_MagReadRaw(LSM9DS0_AccM_TypeDef *mag, int16_3D_t *result)
 {
-
-	float mult = 0;
 	uint8_t data[LSM9DS0_MAG_COUNT];
-	int16_t x,y,z;
 	if (!mag) return -1;
 	if (!(mag->I2C)) return -2;
-	if (!magnetism) return -3;
-	switch (mag->MagFullScale){
-		case LSM9DS0_MAG_FULL_SCALE_2G: mult = LSM9DS0_MAG_MULTIPLIER_2G; break;
-		case LSM9DS0_MAG_FULL_SCALE_4G: mult = LSM9DS0_MAG_MULTIPLIER_4G; break;
-		case LSM9DS0_MAG_FULL_SCALE_8G: mult = LSM9DS0_MAG_MULTIPLIER_8G; break;
-		case LSM9DS0_MAG_FULL_SCALE_12G: mult = LSM9DS0_MAG_MULTIPLIER_12G; break;
-	}
+	if (!result) return -3;
 	TM_I2C_ReadMulti(mag->I2C,mag->Address,LSM9DS0_MAG_ADDR,data,LSM9DS0_MAG_COUNT);
-	x = (data[1]<<8)|data[0];
-	y = (data[3]<<8)|data[2];
-	z = (data[5]<<8)|data[4];
-	magnetism->X = x*mult;
-	magnetism->Y = y*mult;
-	magnetism->Z = z*mult;
+	result->X = (data[1]<<8)|data[0];
+	result->Y = (data[3]<<8)|data[2];
+	result->Z = (data[5]<<8)|data[4];
 	return 0;
+}
 
+void LSM9DS0_GyroScaleData(LSM9DS0_Gyro_TypeDef* gyro, int16_3D_t *source, float_3D_t *result)
+{
+	float multiplier = 1;
+	switch (gyro->FullScale)
+	{
+		case LSM9DS0_GYRO_FS_245DPS:	multiplier = LSM9DS0_GYRO_FS_MULTIPLIER_245DPS; break;
+		case LSM9DS0_GYRO_FS_500DPS:	multiplier = LSM9DS0_GYRO_FS_MULTIPLIER_500DPS; break;
+		case LSM9DS0_GYRO_FS_2000DPS:	multiplier = LSM9DS0_GYRO_FS_MULTIPLIER_2000DPS; break;
+		default:						multiplier = 1;
+	}
+	result->X = source->X * multiplier;
+	result->Y = source->Y * multiplier;
+	result->Z = source->Z * multiplier;
+}
+void LSM9DS0_AccScaleData(LSM9DS0_AccM_TypeDef* acc, int16_3D_t *source, float_3D_t *result)
+{
+	float multiplier = 1;
+	switch (acc->AccFullScale)
+	{
+		case LSM9DS0_ACC_FULL_SCALE_2G:		multiplier = LSM9DS0_ACC_MULTIPLIER_2G; break;
+		case LSM9DS0_ACC_FULL_SCALE_4G:		multiplier = LSM9DS0_ACC_MULTIPLIER_4G; break;
+		case LSM9DS0_ACC_FULL_SCALE_6G:		multiplier = LSM9DS0_ACC_MULTIPLIER_6G; break;
+		case LSM9DS0_ACC_FULL_SCALE_8G:		multiplier = LSM9DS0_ACC_MULTIPLIER_8G; break;
+		case LSM9DS0_ACC_FULL_SCALE_16G:	multiplier = LSM9DS0_ACC_MULTIPLIER_16G; break;
+		default:							multiplier = 1;
+	}
+	result->X = source->X * multiplier;
+	result->Y = source->Y * multiplier;
+	result->Z = source->Z * multiplier;
+}
+
+void LSM9DS0_MagScaleData(LSM9DS0_AccM_TypeDef* mag, int16_3D_t *source, float_3D_t *result)
+{
+	float multiplier = 1;
+	switch (mag->MagFullScale)
+	{
+		case LSM9DS0_MAG_FULL_SCALE_2G:		multiplier = LSM9DS0_MAG_MULTIPLIER_2G; break;
+		case LSM9DS0_MAG_FULL_SCALE_4G:		multiplier = LSM9DS0_MAG_MULTIPLIER_4G; break;
+		case LSM9DS0_MAG_FULL_SCALE_8G:		multiplier = LSM9DS0_MAG_MULTIPLIER_8G; break;
+		case LSM9DS0_MAG_FULL_SCALE_12G:	multiplier = LSM9DS0_MAG_MULTIPLIER_12G; break;
+		default:							multiplier = 1;
+	}
+	result->X = source->X * multiplier;
+	result->Y = source->Y * multiplier;
+	result->Z = source->Z * multiplier;
+}
+
+
+int8_t LSM9DS0_GyroRead(LSM9DS0_Gyro_TypeDef* gyro, float_3D_t* result)
+{
+	int16_t data;
+	int8_t res = LSM9DS0_GyroReadRaw(gyro,&data);
+	if (res!=0) return res;
+	LSM9DS0_GyroScaleData(gyro,&data,result);
+	return 0;
+}
+
+int8_t LSM9DS0_AccRead(LSM9DS0_AccM_TypeDef* accel, float_3D_t* result)
+{
+	int16_t data;
+	int8_t res = LSM9DS0_AccReadRaw(accel,&data);
+	if (res!=0) return res;
+	LSM9DS0_AccScaleData(accel,&data,result);
+	return 0;
+}
+
+int8_t LSM9DS0_MagRead(LSM9DS0_AccM_TypeDef* mag, float_3D_t* result)
+{
+	int16_t data;
+	int8_t res = LSM9DS0_MagReadRaw(mag,&data);
+	if (res!=0) return res;
+	LSM9DS0_MagScaleData(mag,&data,result);
+	return 0;
 }
 
