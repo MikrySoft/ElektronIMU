@@ -103,24 +103,58 @@ void SetDigit(uint8_t row, uint8_t column, uint8_t value, uint8_t active, uint8_
 	C96_DISP[row][column].value  = value;
 }
 
+
 void ShowNumber(uint8_t settings, int32_t number)
 {
 	uint8_t row = (settings&DISP_TOP)?0:1;
 	uint8_t base = (settings&DISP_HEX)?16:10;
 	uint8_t visible = (settings&DISP_FILL);
 	uint8_t i,t;
-	if (number < 0) {
-		number = - number;
-		C96_DISP[row][0].active = 1;
-		C96_DISP[row][0].value = SEG_DIGIT_MID;
-	}
-	for (i = 0;i<5;i++)
+	uint8_t start = 0;
+	uint8_t length = 6;
+	if (settings & DISP_DIG_2)
 	{
-		t = GetDigit(number,base,4-i);
-		visible = (t==0)?visible:1;
-		C96_DISP[row][i+1].active = visible;
-		C96_DISP[row][i+1].value = t;
+		if (settings & DISP_DIG_4)
+		{
+			// 6 digit display
+			start = 0;
+			length = 6;
+		}
+		else
+		{
+			// 2 digit display
+			start = 0;
+			length = 2;
+		}
+	}
+	else
+	{
+		if (settings & DISP_DIG_4)
+		{
+				start = 2;
+				length = 4;
+		}
+		else
+		{
+				start = 1;
+				length = 5;
+				if (number < 0) {
+					number = - number;
+					C96_DISP[row][0].active = 1;
+					C96_DISP[row][0].value = SEG_DIGIT_MID;
+				}
+
+		}
+	}
+
+	for (i = 0;i<(length);i++)
+	{
+		t = GetDigit(number,base,(length-i-1));
+		visible = (t==0&i!=(length-1))?visible:1;
+		C96_DISP[row][i+start].active = visible;
+		C96_DISP[row][i+start].value =  t;
 	}
 
 }
+
 

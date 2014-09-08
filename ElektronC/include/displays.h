@@ -157,11 +157,14 @@ void SetDigit(uint8_t row, uint8_t column, uint8_t value, uint8_t active, uint8_
 
 
 #define DISP_TOP	0x01 //default bottom
+#define DISP_BOT	0x00
 
 #define DISP_DIG_2	0x02
 #define DISP_DIG_4	0x04
 
 #define	DISP_HEX	0x08
+#define DISP_DEC	0x00
+
 #define DISP_FILL	0x10
 
 

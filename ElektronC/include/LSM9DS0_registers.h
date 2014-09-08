@@ -13,7 +13,9 @@
 #define GYRO_ADDR 0xD6
 
 #define LSM9DS0_GYRO_WHOAMI						0x0F	/* Device identification register = 0xD4 									*/
+	#define LSM9DS0_GYRO_WHOAMI_DEFAULT			0xD4
 #define LSM9DS0_GYRO_CTRL_REG1					0x20	/* Control Register 1 														*/
+	#define LSM9DS0_GYRO_CTRL_REG1_DEFAULT		0x07	/* Control Register 1 Default value 														*/
 	#define LSM9DS0_GYRO_CTRL_REG1_DR			0xC0	/* Data rate																*/
 	#define LSM9DS0_GYRO_ODR_95HZ				0x00
 	#define LSM9DS0_GYRO_ODR_190HZ				0x40
@@ -36,6 +38,7 @@
 	#define LSM9DS0_GYRO_CTRL_REG1_XEN			0x01	/* X axis enabled															*/
 
 #define LSM9DS0_GYRO_CTRL_REG2					0x21	/* Control Register 2 														*/
+	#define LSM9DS0_GYRO_CTRL_REG2_DEFAULT		0x00	/* Control Register 2 														*/
 	#define LSM9DS0_GYRO_CTRL_REG2_HPM			0x30 	/* (00) High-pass filter mode:  											*
 														 *	Brea		00:	Normal (reset reading HP_RESET_FILTER)					*
 														 *			01: Reference for filtering										*
@@ -71,6 +74,7 @@
 
 
 #define LSM9DS0_GYRO_CTRL_REG3					0x22	/* Control Register 3 														*/
+	#define LSM9DS0_GYRO_CTRL_REG3_DEFAULT		0x00	/* Control Register 3 														*/
 	#define LSM9DS0_GYRO_CTRL_REG3_I1_INT1		0x80	/*	(0) Interrupt enable on INT_G. Active high								*/
 	#define LSM9DS0_GYRO_CTRL_REG3_I1_BOOT		0x40	/*	(0) Boot status avaliable on INT_G. Active high							*/
 	#define LSM9DS0_GYRO_CTRL_REG3_H_Lactive	0x20	/*	(0) Interrupt active configuration on INT_G. 0=high, 1=low				*/
@@ -80,7 +84,8 @@
 	#define LSM9DS0_GYRO_CTRL_REG3_I2_ORun		0x02	/*	(0) FIFO overrun interrupt on DRDY_G. Active high						*/
 	#define LSM9DS0_GYRO_CTRL_REG3_I2_Empty		0x01	/*	(0)	FIFO empty interrupt on DRDY_G. Active high							*/
 
-#define LSM9DS0_GYRO_CTRL_REG4	0x23					/* Control Register 4 														*/
+#define LSM9DS0_GYRO_CTRL_REG4					0x23	/* Control Register 4 														*/
+	#define LSM9DS0_GYRO_CTRL_REG4_DEFAULT		0x00	/* Control Register 4 														*/
 	#define LSM9DS0_GYRO_CTRL_REG4_BDU			0x80	/*	(0) Block data update. 													*
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *			0 - Continuous update,											*
 	 	 	 	 	 	 	 	 	 	 	 	 	 	 *			1 - output registers not updated until MSB and LSB read			*/
@@ -110,6 +115,7 @@
 	#define LSM9DS0_GYRO_CTRL_REG4_SIM			0x01	/*	(0)	SPI mode selection. 0 - 4 wire, 1 - 3 wire	 	 	 	 	 	 	*/
 
 #define LSM9DS0_GYRO_CTRL_REG5					0x24	/* Control Register 5 														*/
+	#define LSM9DS0_GYRO_CTRL_REG5_DEFAULT		0x00	/* Control Register 5 														*/
 	#define LSM9DS0_GYRO_CTRL_REG5_BOOT			0x80	/*	(0) Reboot memory content. 0 - normal mode, 1 - reboot memory			*/
 	#define LSM9DS0_GYRO_CTRL_REG5_FIFO_EN		0x40	/*	(0) FIFO Enable. Active high.											*/
 	#define LSM9DS0_GYRO_CTRL_REG5_H_PEN		0x20	/*	(0) High pass filter enable. Active high								*
@@ -127,6 +133,7 @@
 	#define LSM9DS0_GYRO_OUT_SRC_LPF2			0x02
 
 #define LSM9DS0_GYRO_REFERENCE					0x25	/*	Reference value for interrupt generation. Default 0						*/
+	#define LSM9DS0_GYRO_REFERENCE_DEFAULT		0x00	/*	Reference value for interrupt generation. Default 0						*/
 #define LSM9DS0_GYRO_STATUS_REG					0x27	/* Status register															*/
 	#define LSM9DS0_GYRO_STATUS_REG_ZYXOR		0x80	/*	(0)	X,Y,Z data overrun. 												*
 														 *			0 - no overrun, 												*
@@ -150,6 +157,7 @@
 	#define LSM9DS0_GYRO_OUT_Z_H				0x2D	/* Z axis output register MSB												*/
 
 #define LSM9DS0_GYRO_FIFO_CTRL					0x2E	/* FIFO Control register													*/
+	#define LSM9DS0_GYRO_FIFO_CTRL_DEFAULT		0x00	/* FIFO Control register													*/
 	#define LSM9DS0_GYRO_FIFO_CTRL_FM			0xE0	/*  (000) FIFO mode selection												*
 														 *			000	Bypass														*												*
 														 *			001	FIFO														*
@@ -172,6 +180,7 @@
 	#define LSM9DS0_GYRO_FIFO_SRC_EMPTY			0x20	/*	FIFO empty																*/
 	#define LSM9DS0_GYRO_FIFO_SRC_FSS			0x1F	/*	FIFO stored data level													*/
 #define LSM9DS0_GYRO_INT1_CFG					0x30	/* Interrupt 1 configuration register										*/
+	#define LSM9DS0_GYRO_INT1_CFG_DEFAULT		0x00	/* Interrupt 1 configuration register										*/
 	#define LSM9DS0_GYRO_INT1_CFG_AOR			0x80	/*	(0)	AND/OR combination of interrupt events. 0 - OR, 1 - AND				*/
 	#define LSM9DS0_GYRO_INT1_CFG_LIR			0x40	/*	(0)	Latch interrupt request.
 																	0 - interrupt request not latched,
@@ -236,9 +245,11 @@
 	#define LSM9DS0_MAG_OUT_Z_L					0x0C	/*  Z axis magnetic data LSB */
 	#define LSM9DS0_MAG_OUT_Z_H					0x0D	/*  Z axis magnetic data MSB */
 
-#define LSM9DS0_MAG_WHOAMI	0x0F						/*  Device identification register = 0x49 */
+#define LSM9DS0_MAG_WHOAMI						0x0F	/*  Device identification register = 0x49 */
+	#define LSM9DS0_MAG_WHOAMI_DEFAULT			0x49	/*  Device identification register = 0x49 */
 
-#define LSM9DS0_MAG_INT_CFG	0x12						/* Interrupt configuration register */
+#define LSM9DS0_MAG_INT_CFG						0x12	/* Interrupt configuration register */
+	#define LSM9DS0_MAG_INT_CFG_DEFAULT			0xE8	/* Interrupt configuration register */
 	#define LSM9DS0_MAG_INT_CFG_XMIEN			0x80	/*		(0) Enable interrupt on X axis	*/
 	#define LSM9DS0_MAG_INT_CFG_YMIEN			0x40	/*		(0) Enable interrupt on Y axis	*/
 	#define LSM9DS0_MAG_INT_CFG_ZMIEN			0x20	/*		(0) Enable interrupt on Z axis	*/
@@ -280,6 +291,7 @@
 	#define LSM9DS0_ACC_REF_Z					0x1E	/* Reference value for high-pass filter for Z-axis acceleration data */
 
 #define LSM9DS0_ACC_CTRL_REG0					0x1F	/* Accelerometer Control register 0 																	*/
+	#define LSM9DS0_ACC_CTRL_REG0_DEFAULT		0x00	/* Accelerometer Control register 0 																	*/
 	#define LSM9DS0_ACC_CTRL_REG0_BOOT	 		0x80	/*		(0)	Reboot memory content. 0 - normal mode, 1 - reboot memory									*/
 	#define LSM9DS0_ACC_CTRL_REG0_FIFO_EN	 	0x40	/*		(0)	FIFO enable. Active high																	*/
 	#define LSM9DS0_ACC_CTRL_REG0_WTM_EN	 	0x20	/*		(0)	FIFO watermark enable
@@ -290,6 +302,7 @@
 	#define LSM9DS0_ACC_CTRL_REG0_HIPS2	 		0x01	/*		(0) High-pass fitler enabled for Interrupt generator 2. 0 - filter bypassed, 1 - filter enabled	*/
 
 #define LSM9DS0_ACC_CTRL_REG1					0x20	/* Accelerometer Control register 1																		*/
+	#define LSM9DS0_ACC_CTRL_REG1_DEFAULT		0x07	/* Accelerometer Control register 1																		*/
 	#define LSM9DS0_ACC_CTRL_REG1_AODR	 		0xF0	/*		(0000)	Acceleration data rate selection														*
 																	0000	Power down mode			0001	3.125Hz												*
 																	0010	6.25Hz					0011	12.5Hz												*
@@ -319,6 +332,7 @@
 	#define LSM9DS0_ACC_CTRL_REG1_AXEN	 		0x01	/*		(1) Acceleration X-axis enable																	*/
 
 #define LSM9DS0_ACC_CTRL_REG2					0x21	/* Accelerometer Control register 2 																	*/
+	#define LSM9DS0_ACC_CTRL_REG2_DEFAULT		0x00	/* Accelerometer Control register 2 																	*/
 	#define LSM9DS0_ACC_CTRL_REG2_ABW	 		0xC0	/*		(00)  Accelerometer anti-alias filter bandwidth													*
 																	00	733Hz																					*
 																	01	194Hz																					*
@@ -361,6 +375,7 @@
 	#define LSM9DS0_ACC_CTRL_REG2_SIM	 		0x01	/*		(0) SPI Serial Interface Mode selection															*/
 
 #define LSM9DS0_MAG_CTRL_REG3					0x22	/* Accelerometer Control register 3 */
+	#define LSM9DS0_MAG_CTRL_REG3_DEFAULT		0x00	/* Accelerometer Control register 3 */
 	#define LSM9DS0_MAG_CTRL_REG3_P1_BOOT	 	0x80	/*		(0)	Boot on INT1_XM enable	*/
 	#define LSM9DS0_MAG_CTRL_REG3_P1_TAP	 	0x40	/*		(0)	Tap generator interrupt on INT1_XM	*/
 	#define LSM9DS0_MAG_CTRL_REG3_P1_INT1	 	0x20	/*		(0)	Inertial interrupt generator 1 on INT1_XM	*/
@@ -372,6 +387,7 @@
 
 
 #define LSM9DS0_MAG_CTRL_REG4					0x23	/* Accelerometer Control register 4 */
+	#define LSM9DS0_MAG_CTRL_REG_DEFAULT		0x00	/* Accelerometer Control register 4 */
 	#define LSM9DS0_MAG_CTRL_REG4_P2_TAP	 	0x80	/*		(0)	Tap generator interrupt on INT2_XM	*/
 	#define LSM9DS0_MAG_CTRL_REG4_P2_INT1	 	0x40	/*		(0)	Inertial interrupt generator 1 on INT2_XM	*/
 	#define LSM9DS0_MAG_CTRL_REG4_P2_INT2	 	0x20	/*		(0) Inertial interrupt generator 2 on INT2_XM	*/
@@ -382,6 +398,7 @@
 	#define LSM9DS0_MAG_CTRL_REG4_P2_WTM		0x01	/*		(0) FIFO watermark on INT2_XM	*/
 
 #define LSM9DS0_MAG_CTRL_REG5					0x24	/* Accelerometer Control register 5 */
+	#define LSM9DS0_MAG_CTRL_REG5_DEFAULT		0x18	/* Accelerometer Control register 5 */
 	#define LSM9DS0_MAG_CTRL_REG5_TEMP_EN		0x80	/*		(0)	Temperature sensor enable	*/
 	#define LSM9DS0_MAG_CTRL_REG5_M_RES	 		0x60	/*		(00) Magnetic resolution selection: 00 - low resolution, 11 - high resolution	*/
 	#define LSM9DS0_MAG_RESOLUTION_LOW			0x00
@@ -407,7 +424,8 @@
 	#define LSM9DS0_MAG_CTRL_REG5_LIR2	 		0x02	/*			(0) Latch interrupt request on INT2_SRC with it being cleared by reading INT2_SRC itself	*/
 	#define LSM9DS0_MAG_CTRL_REG5_LIR1	 		0x01	/*			(0) Latch interrupt request on INT1_SRC with it being cleared by reading INT1_SRC itself	*/
 
-#define LSM9DS0_MAG_CTRL_REG6					0x25	/* Accelerometer Control register 6
+#define LSM9DS0_MAG_CTRL_REG6					0x25	/* Accelerometer Control register 6 */
+	#define LSM9DS0_MAG_CTRL_REG6_DEFAULT		0x20	/* Accelerometer Control register 6
 												0x80			(0) Reserved	*/
 	#define LSM9DS0_MAG_CTRL_REG6_MFS			0x60	/*		(01) Magnetic full-scale selection
 																	00	2 gauss			01	4 gauss
@@ -423,6 +441,7 @@
 
 
 #define LSM9DS0_MAG_CTRL_REG7					0x26	/* Accelerometer Control register 7 */
+	#define LSM9DS0_MAG_CTRL_REG7_DEFAULT		0x03	/* Accelerometer Control register 7 */
 	#define LSM9DS0_MAG_CTRL_REG7_AHPM	 		0xC0	/*	 	(00) High-pass filter mode selection for acceleration data
 																	00	Normal mode (resets X,Y,Z axis reading REFERENCE_X,Y,Z)
 																	01	Reference signal for filtering
